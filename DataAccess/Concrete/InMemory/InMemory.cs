@@ -1,18 +1,22 @@
 ﻿using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.InMemory
 {
-    public class InMemory : ICarDal
+    public class InMemory : ICarDal,IUserDal
     {
 
         List<Car> _cars;
+        List<Users> _users;
+       
 
         public InMemory()
         {
@@ -29,24 +33,70 @@ namespace DataAccess.Concrete.InMemory
 
         public void Add(Car car)
         {
+           
            _cars.Add(car);  
         }
 
+        public void Add(Users user)
+        {
+            _users.Add(user);
+        }
+
+       
+
         public void Delete(Car car)
         {
-           Car carDelete = carDelete = _cars.SingleOrDefault
-                (c => c.CarId == car.CarId);
-            _cars.Remove(carDelete);
+          _cars.Remove(car);
         }
+
+        public void Delete(Users user)
+        {
+            _users.Remove(user);
+        }
+
+
+        public Car Get()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Car Get(Expression<Func<Car, bool>> filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Users Get(Expression<Func<Users, bool>> filter)
+        {
+            throw new NotImplementedException();
+        }
+
+       
 
         public List<Car> GetAll()
         {
             return _cars;
         }
 
+        public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Users> GetAll(Expression<Func<Users, bool>> filter = null)
+        {
+            throw new NotImplementedException();
+        }
+
+       
+
         public List<Car> GetById(int CarId)
         {
             return _cars.Where(c=>c.CarId==CarId).ToList();
+        }
+
+        public List<CarDetailDto> GetCarDetails()
+        {
+            throw new NotImplementedException();
         }
 
         public void Update(Car car)
@@ -61,5 +111,19 @@ namespace DataAccess.Concrete.InMemory
             carUpdate.Description= car.Description;
             
         }
+
+        public void Update(Users user)
+        {
+            Users userUpdate = userUpdate = _users.SingleOrDefault
+                 (c => c.Id == user.Id);
+            userUpdate.Id = user.Id;
+            userUpdate.UserFirstName=user.UserFirstName;
+            userUpdate.UserLastName=user.UserLastName;
+            userUpdate.UserEmail=user.UserEmail;
+            userUpdate.UserPassword=user.UserPassword;
+            userUpdate.CompanyName=user.CompanyName;
+        }
+
+        
     }
 }
